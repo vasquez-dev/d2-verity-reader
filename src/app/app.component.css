@@ -1,0 +1,13 @@
+.image-selection {
+  height: 100px;
+  width: 100px;
+}
+
+.selectable:hover {
+  cursor: pointer;
+  border: 1px solid #d0d0d0;
+}
+
+.selected {
+  border: 1px solid #d0d0d0;
+}
