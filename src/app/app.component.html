@@ -1,481 +1,324 @@
 <div class="container">
-  <h2 class="text-center">Verity Reader</h2>
-  <form [formGroup]="verityForm">
-    <h3>Inside Team</h3>
-    <div class="row">
-      <div class="col-4">
-        <div class="col">
-          <h4>Left</h4>
-        </div>
-        <div class="col d-flex">
-          <label class="col">
-            <input
-              type="radio"
-              id="circle"
-              formControlName="insideLeft"
-              value="circle"
-            />
-            <img class="image-selection" src="assets/Circle.jpg" />
-          </label>
-          <label class="col">
-            <input
-              type="radio"
-              id="circle"
-              formControlName="insideLeft"
-              value="triangle"
-            />
-            <img class="image-selection" src="assets/Triangle.jpg" />
-          </label>
-          <label class="col">
-            <input
-              type="radio"
-              id="circle"
-              formControlName="insideLeft"
-              value="square"
-            />
-            <img class="image-selection" src="assets/Square.jpg" />
-          </label>
-        </div>
+  <h2 class="text-center">Verity Solver</h2>
+  <h3>What's on the inside?</h3>
+  <div class="row">
+    <div class="col-4">
+      <div class="col">
+        <h4>Left</h4>
       </div>
-
-      <div class="col-4">
-        <div class="col">
-          <h4>Middle</h4>
-        </div>
-        <div class="col d-flex">
-          <label class="col">
-            <input
-              type="radio"
-              id="circle"
-              formControlName="insideMiddle"
-              value="circle"
-            />
-            <img class="image-selection" src="assets/Circle.jpg" />
-          </label>
-          <label class="col">
-            <input
-              type="radio"
-              id="circle"
-              formControlName="insideMiddle"
-              value="triangle"
-            />
-            <img class="image-selection" src="assets/Triangle.jpg" />
-          </label>
-          <label class="col">
-            <input
-              type="radio"
-              id="circle"
-              formControlName="insideMiddle"
-              value="square"
-            />
-            <img class="image-selection" src="assets/Square.jpg" />
-          </label>
-        </div>
-      </div>
-
-      <div class="col-4">
-        <div class="col">
-          <h4>Right</h4>
-        </div>
-        <div class="col d-flex">
-          <label class="col">
-            <input
-              type="radio"
-              id="circle"
-              formControlName="insideRight"
-              value="circle"
-            />
-            <img class="image-selection" src="assets/Circle.jpg" />
-          </label>
-          <label class="col">
-            <input
-              type="radio"
-              id="circle"
-              formControlName="insideRight"
-              value="triangle"
-            />
-            <img class="image-selection" src="assets/Triangle.jpg" />
-          </label>
-          <label class="col">
-            <input
-              type="radio"
-              id="circle"
-              formControlName="insideRight"
-              value="square"
-            />
-            <img class="image-selection" src="assets/Square.jpg" />
-          </label>
+      <div class="col d-flex">
+        <ng-container *ngIf="!insideLeft">
+          <div
+            class="col border text-center d-flex justify-content-center align-items-center selectable"
+            *ngFor="let shape of availableSelections"
+            (click)="makeSelection(shape, Location.Left)"
+          >
+            {{ shape | titlecase }}
+          </div>
+        </ng-container>
+        <div *ngIf="insideLeft" class="col text-center">
+          <img
+            *ngIf="insideLeft === Shape.Circle"
+            class="image-selection"
+            src="assets/finalcircle.png"
+          />
+          <img
+            *ngIf="insideLeft === Shape.Square"
+            class="image-selection"
+            src="assets/finalsquare.png"
+          />
+          <img
+            *ngIf="insideLeft === Shape.Triangle"
+            class="image-selection"
+            src="assets/finaltriangle.png"
+          />
         </div>
       </div>
     </div>
 
-    <h3>Outside Team</h3>
-    <div class="row">
-      <div class="col-4">
-        <div class="col">
-          <h4>Left</h4>
-        </div>
-        <div class="col d-flex flex-wrap">
-          <label class="col-4">
-            <input
-              type="radio"
-              id="sphere"
-              formControlName="outsideLeft"
-              value="sphere"
-            />
-            <img class="image-selection" src="assets/Sphere.png" />
-          </label>
-          <label class="col-4">
-            <input
-              type="radio"
-              id="pyramid"
-              formControlName="outsideLeft"
-              value="pyramid"
-            />
-            <img class="image-selection" src="assets/Square-Pyramid.png" />
-          </label>
-          <label class="col-4">
-            <input
-              type="radio"
-              id="cube"
-              formControlName="outsideLeft"
-              value="cube"
-            /><img class="image-selection" src="assets/Cube.png" />
-          </label>
-          <label class="col">
-            <input
-              type="radio"
-              id="cone"
-              formControlName="outsideLeft"
-              value="cone"
-            />
-            <img class="image-selection" src="assets/Cone.png" />
-          </label>
-          <label class="col">
-            <input
-              type="radio"
-              id="prism"
-              formControlName="outsideLeft"
-              value="prism"
-            />
-            <img class="image-selection" src="assets/Triangular-Prism.png" />
-          </label>
-          <label class="col">
-            <input
-              type="radio"
-              id="cylinder"
-              formControlName="outsideLeft"
-              value="cylinder"
-            />
-            <img class="image-selection" src="assets/cylinder.png" />
-          </label>
-        </div>
+    <div class="col-4">
+      <div class="col">
+        <h4>Middle</h4>
       </div>
-
-      <div class="col-4">
-        <div class="col">
-          <h4>Middle</h4>
-        </div>
-        <div class="col d-flex flex-wrap">
-          <label class="col-4">
-            <input
-              type="radio"
-              id="sphere"
-              formControlName="outsideMiddle"
-              value="sphere"
-            />
-            <img class="image-selection" src="assets/Sphere.png" />
-          </label>
-          <label class="col-4">
-            <input
-              type="radio"
-              id="pyramid"
-              formControlName="outsideMiddle"
-              value="pyramid"
-            />
-            <img class="image-selection" src="assets/Square-Pyramid.png" />
-          </label>
-          <label class="col-4">
-            <input
-              type="radio"
-              id="cube"
-              formControlName="outsideMiddle"
-              value="cube"
-            /><img class="image-selection" src="assets/Cube.png" />
-          </label>
-          <label class="col">
-            <input
-              type="radio"
-              id="cone"
-              formControlName="outsideMiddle"
-              value="cone"
-            />
-            <img class="image-selection" src="assets/Cone.png" />
-          </label>
-          <label class="col">
-            <input
-              type="radio"
-              id="prism"
-              formControlName="outsideMiddle"
-              value="prism"
-            />
-            <img class="image-selection" src="assets/Triangular-Prism.png" />
-          </label>
-          <label class="col">
-            <input
-              type="radio"
-              id="cylinder"
-              formControlName="outsideMiddle"
-              value="cylinder"
-            />
-            <img class="image-selection" src="assets/cylinder.png" />
-          </label>
-        </div>
-      </div>
-
-      <div class="col-4">
-        <div class="col">
-          <h4>Right</h4>
-        </div>
-        <div class="col d-flex flex-wrap">
-          <label class="col-4">
-            <input
-              type="radio"
-              id="sphere"
-              formControlName="outsideRight"
-              value="sphere"
-            />
-            <img class="image-selection" src="assets/Sphere.png" />
-          </label>
-          <label class="col-4">
-            <input
-              type="radio"
-              id="pyramid"
-              formControlName="outsideRight"
-              value="pyramid"
-            />
-            <img class="image-selection" src="assets/Square-Pyramid.png" />
-          </label>
-          <label class="col-4">
-            <input
-              type="radio"
-              id="cube"
-              formControlName="outsideRight"
-              value="cube"
-            /><img class="image-selection" src="assets/Cube.png" />
-          </label>
-          <label class="col">
-            <input
-              type="radio"
-              id="cone"
-              formControlName="outsideRight"
-              value="cone"
-            />
-            <img class="image-selection" src="assets/Cone.png" />
-          </label>
-          <label class="col">
-            <input
-              type="radio"
-              id="prism"
-              formControlName="outsideRight"
-              value="prism"
-            />
-            <img class="image-selection" src="assets/Triangular-Prism.png" />
-          </label>
-          <label class="col">
-            <input
-              type="radio"
-              id="cylinder"
-              formControlName="outsideRight"
-              value="cylinder"
-            />
-            <img class="image-selection" src="assets/cylinder.png" />
-          </label>
+      <div class="col d-flex">
+        <ng-container *ngIf="!insideMiddle">
+          <div
+            class="col border text-center d-flex justify-content-center align-items-center selectable"
+            *ngFor="let shape of availableSelections"
+            (click)="makeSelection(shape, Location.Middle)"
+          >
+            {{ shape | titlecase }}
+          </div>
+        </ng-container>
+        <div *ngIf="insideMiddle" class="col text-center">
+          <img
+            *ngIf="insideMiddle === Shape.Circle"
+            class="image-selection"
+            src="assets/finalcircle.png"
+          />
+          <img
+            *ngIf="insideMiddle === Shape.Square"
+            class="image-selection"
+            src="assets/finalsquare.png"
+          />
+          <img
+            *ngIf="insideMiddle === Shape.Triangle"
+            class="image-selection"
+            src="assets/finaltriangle.png"
+          />
         </div>
       </div>
     </div>
 
-    <h3>Dissect</h3>
-    <div class="row">
-      <div class="col-4">
-        <div class="col">
-          <h4>Left</h4>
+    <div class="col-4">
+      <div class="col">
+        <h4>Right</h4>
+      </div>
+      <div class="col d-flex">
+        <ng-container *ngIf="!insideRight">
+          <div
+            class="col border text-center d-flex justify-content-center align-items-center selectable"
+            *ngFor="let shape of availableSelections"
+            (click)="makeSelection(shape, Location.Right)"
+          >
+            {{ shape | titlecase }}
+          </div>
+        </ng-container>
+        <div *ngIf="insideRight" class="col text-center">
+          <img
+            *ngIf="insideRight === Shape.Circle"
+            class="image-selection"
+            src="assets/finalcircle.png"
+          />
+          <img
+            *ngIf="insideRight === Shape.Square"
+            class="image-selection"
+            src="assets/finalsquare.png"
+          />
+          <img
+            *ngIf="insideRight === Shape.Triangle"
+            class="image-selection"
+            src="assets/finaltriangle.png"
+          />
         </div>
-        <div class="col d-flex">
-          <div class="col" *ngFor="let shape of dissectShapes?.left">
+      </div>
+    </div>
+  </div>
+  <h3>What's on the outside?</h3>
+  <div class="row">
+    <div class="col-4">
+      <div class="col">
+        <h4>Left</h4>
+      </div>
+      <div class="col d-flex flex-wrap">
+        <ng-container *ngIf="!outsideLeft && stepByStepSolution.length === 0">
+          <div
+            class="col-4 border text-center d-flex justify-content-center align-items-center selectable"
+            *ngFor="let shape of outsideShapes"
+            (click)="selectOutside(shape, Location.Left)"
+          >
+            {{ shape.name | titlecase }}
+          </div>
+        </ng-container>
+        <div
+          *ngIf="outsideLeft && stepByStepSolution.length === 0"
+          class="col text-center"
+        >
+          <div
+            class="col"
+            [ngClass]="first ? 'mb-3' : ''"
+            *ngFor="let shape of outsideLeft.composition; let first = first"
+          >
             <img
-              *ngIf="shape === 'circle'"
+              *ngIf="shape === Shape.Circle"
               class="image-selection"
-              src="assets/Circle.jpg"
+              src="assets/circle.png"
             />
             <img
-              *ngIf="shape === 'triangle'"
+              *ngIf="shape === Shape.Square"
               class="image-selection"
-              src="assets/Triangle.jpg"
+              src="assets/square.png"
             />
             <img
-              *ngIf="shape === 'square'"
+              *ngIf="shape === Shape.Triangle"
               class="image-selection"
-              src="assets/Square.jpg"
+              src="assets/triangle.png"
             />
           </div>
         </div>
-      </div>
-
-      <div class="col-4">
-        <div class="col">
-          <h4>Middle</h4>
-        </div>
-        <div class="col d-flex">
-          <div class="col" *ngFor="let shape of dissectShapes?.middle">
+        <div *ngIf="stepByStepSolution.length > 0" class="col text-center">
+          <div
+            class="col"
+            [ngClass]="first ? 'mb-3' : ''"
+            *ngFor="let shape of solvedLeft; let first = first"
+          >
             <img
-              *ngIf="shape === 'circle'"
+              *ngIf="shape === Shape.Circle"
               class="image-selection"
-              src="assets/Circle.jpg"
+              src="assets/circle.png"
             />
             <img
-              *ngIf="shape === 'triangle'"
+              *ngIf="shape === Shape.Square"
               class="image-selection"
-              src="assets/Triangle.jpg"
+              src="assets/square.png"
             />
             <img
-              *ngIf="shape === 'square'"
+              *ngIf="shape === Shape.Triangle"
               class="image-selection"
-              src="assets/Square.jpg"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div class="col-4">
-        <div class="col">
-          <h4>Right</h4>
-        </div>
-        <div class="col d-flex">
-          <div class="col" *ngFor="let shape of dissectShapes?.right">
-            <img
-              *ngIf="shape === 'circle'"
-              class="image-selection"
-              src="assets/Circle.jpg"
-            />
-            <img
-              *ngIf="shape === 'triangle'"
-              class="image-selection"
-              src="assets/Triangle.jpg"
-            />
-            <img
-              *ngIf="shape === 'square'"
-              class="image-selection"
-              src="assets/Square.jpg"
+              src="assets/triangle.png"
             />
           </div>
         </div>
       </div>
     </div>
 
-    <h3>Ending Symbols</h3>
-    <div class="row">
-      <div class="col-4">
-        <div class="col">
-          <h4>Left</h4>
-        </div>
-        <div class="col d-flex flex-wrap">
-          <div class="col" [ngSwitch]="endingShapes?.left">
-            <div class="col" *ngSwitchCase="'cone'">
-              <img class="image-selection" src="assets/Cone.png" />
-              =
-              <img class="image-selection" src="assets/Circle.jpg" />
-              +
-              <img class="image-selection" src="assets/Triangle.jpg" />
-            </div>
-            <div class="col" *ngSwitchCase="'prism'">
-              <img class="image-selection" src="assets/Triangular-Prism.png" />
-              =
-              <img class="image-selection" src="assets/Square.jpg" />
-              +
-              <img class="image-selection" src="assets/Triangle.jpg" />
-            </div>
-            <div class="col" *ngSwitchCase="'cylinder'">
-              <img class="image-selection" src="assets/cylinder.png" />
-              =
-              <img class="image-selection" src="assets/Circle.jpg" />
-              +
-              <img class="image-selection" src="assets/Square.jpg" />
-            </div>
+    <div class="col-4">
+      <div class="col">
+        <h4>Middle</h4>
+      </div>
+      <div class="col d-flex flex-wrap">
+        <ng-container *ngIf="!outsideMiddle && stepByStepSolution.length === 0">
+          <div
+            class="col-4 border text-center d-flex justify-content-center align-items-center selectable"
+            *ngFor="let shape of outsideShapes"
+            (click)="selectOutside(shape, Location.Middle)"
+          >
+            {{ shape.name | titlecase }}
+          </div>
+        </ng-container>
+        <div
+          *ngIf="outsideMiddle && stepByStepSolution.length === 0"
+          class="col text-center"
+        >
+          <div
+            class="col"
+            [ngClass]="first ? 'mb-3' : ''"
+            *ngFor="let shape of outsideMiddle.composition; let first = first"
+          >
+            <img
+              *ngIf="shape === Shape.Circle"
+              class="image-selection"
+              src="assets/circle.png"
+            />
+            <img
+              *ngIf="shape === Shape.Square"
+              class="image-selection"
+              src="assets/square.png"
+            />
+            <img
+              *ngIf="shape === Shape.Triangle"
+              class="image-selection"
+              src="assets/triangle.png"
+            />
           </div>
         </div>
-      </div>
-
-      <div class="col-4">
-        <div class="col">
-          <h4>Middle</h4>
-        </div>
-        <div class="col d-flex flex-wrap">
-          <div class="col" [ngSwitch]="endingShapes?.middle">
-            <div class="col" *ngSwitchCase="'cone'">
-              <img class="image-selection" src="assets/Cone.png" />
-              =
-              <img class="image-selection" src="assets/Circle.jpg" />
-              +
-              <img class="image-selection" src="assets/Triangle.jpg" />
-            </div>
-            <div class="col" *ngSwitchCase="'prism'">
-              <img class="image-selection" src="assets/Triangular-Prism.png" />
-              =
-              <img class="image-selection" src="assets/Square.jpg" />
-              +
-              <img class="image-selection" src="assets/Triangle.jpg" />
-            </div>
-            <div class="col" *ngSwitchCase="'cylinder'">
-              <img class="image-selection" src="assets/cylinder.png" />
-              =
-              <img class="image-selection" src="assets/Circle.jpg" />
-              +
-              <img class="image-selection" src="assets/Square.jpg" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-4">
-        <div class="col">
-          <h4>Right</h4>
-        </div>
-        <div class="col d-flex flex-wrap">
-          <div class="col" [ngSwitch]="endingShapes?.right">
-            <div class="col" *ngSwitchCase="'cone'">
-              <img class="image-selection" src="assets/Cone.png" />
-              =
-              <img class="image-selection" src="assets/Circle.jpg" />
-              +
-              <img class="image-selection" src="assets/Triangle.jpg" />
-            </div>
-            <div class="col" *ngSwitchCase="'prism'">
-              <img class="image-selection" src="assets/Triangular-Prism.png" />
-              =
-              <img class="image-selection" src="assets/Square.jpg" />
-              +
-              <img class="image-selection" src="assets/Triangle.jpg" />
-            </div>
-            <div class="col" *ngSwitchCase="'cylinder'">
-              <img class="image-selection" src="assets/cylinder.png" />
-              =
-              <img class="image-selection" src="assets/Circle.jpg" />
-              +
-              <img class="image-selection" src="assets/Square.jpg" />
-            </div>
+        <div *ngIf="stepByStepSolution.length > 0" class="col text-center">
+          <div
+            class="col"
+            [ngClass]="first ? 'mb-3' : ''"
+            *ngFor="let shape of solvedMiddle; let first = first"
+          >
+            <img
+              *ngIf="shape === Shape.Circle"
+              class="image-selection"
+              src="assets/circle.png"
+            />
+            <img
+              *ngIf="shape === Shape.Square"
+              class="image-selection"
+              src="assets/square.png"
+            />
+            <img
+              *ngIf="shape === Shape.Triangle"
+              class="image-selection"
+              src="assets/triangle.png"
+            />
           </div>
         </div>
       </div>
     </div>
-  </form>
-  <div
-    class="alert alert-danger"
-    role="alert"
-    *ngIf="verityForm.invalid && isSubmitted"
-  >
-    The form is invalid.
+
+    <div class="col-4">
+      <div class="col">
+        <h4>Right</h4>
+      </div>
+      <div class="col d-flex flex-wrap">
+        <ng-container *ngIf="!outsideRight && stepByStepSolution.length === 0">
+          <div
+            class="col-4 border text-center d-flex justify-content-center align-items-center selectable"
+            *ngFor="let shape of outsideShapes"
+            (click)="selectOutside(shape, Location.Right)"
+          >
+            {{ shape.name | titlecase }}
+          </div>
+        </ng-container>
+        <div
+          *ngIf="outsideRight && stepByStepSolution.length === 0"
+          class="col text-center"
+        >
+          <div
+            class="col"
+            [ngClass]="first ? 'mb-3' : ''"
+            *ngFor="let shape of outsideRight.composition; let first = first"
+          >
+            <img
+              *ngIf="shape === Shape.Circle"
+              class="image-selection"
+              src="assets/circle.png"
+            />
+            <img
+              *ngIf="shape === Shape.Square"
+              class="image-selection"
+              src="assets/square.png"
+            />
+            <img
+              *ngIf="shape === Shape.Triangle"
+              class="image-selection"
+              src="assets/triangle.png"
+            />
+          </div>
+        </div>
+        <div *ngIf="stepByStepSolution.length > 0" class="col text-center">
+          <div
+            class="col"
+            [ngClass]="first ? 'mb-3' : ''"
+            *ngFor="let shape of solvedRight; let first = first"
+          >
+            <img
+              *ngIf="shape === Shape.Circle"
+              class="image-selection"
+              src="assets/circle.png"
+            />
+            <img
+              *ngIf="shape === Shape.Square"
+              class="image-selection"
+              src="assets/square.png"
+            />
+            <img
+              *ngIf="shape === Shape.Triangle"
+              class="image-selection"
+              src="assets/triangle.png"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-container *ngIf="stepByStepSolution && stepByStepSolution.length > 0">
+    <h3 class="text-center">Step by Step Instructions</h3>
+    <ol>
+      <li *ngFor="let step of stepByStepSolution">{{ step }}</li>
+    </ol>
+  </ng-container>
+
+  <div class="alert alert-danger" role="alert" *ngIf="!isSolvable">
+    This selection is not solvable. Please check your inputs and try again
   </div>
   <button (click)="reset()">Reset</button>
-  <button (click)="doTheThing()">Submit</button>
+  <button
+    (click)="doTheThing()"
+    *ngIf="isSolvable && stepByStepSolution.length === 0"
+  >
+    Solve
+  </button>
 </div>
