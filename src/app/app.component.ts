@@ -164,13 +164,9 @@ export class AppComponent {
                 this.stepByStepSolution.push(
                   `Dissect ${neededShapes[i]} from Middle`
                 );
-                if (startMiddle[0] === neededShapes[i]) {
-                  startMiddle.splice(0, 1);
-                } else {
-                  startMiddle.splice(1, 1);
-                }
+                let swapIndex = startMiddle.indexOf(neededShapes[i]);
+                startMiddle.splice(swapIndex, 1);
                 startMiddle.push(dissectShapes[i]);
-                dissectShapes.splice(i, 1);
                 this.solvedLeft.push(neededShapes[i]);
               } else if (startRight?.includes(neededShapes[i])) {
                 // Look for shape on right
@@ -180,13 +176,9 @@ export class AppComponent {
                 this.stepByStepSolution.push(
                   `Dissect ${neededShapes[i]} from Right`
                 );
-                if (startRight[0] === neededShapes[i]) {
-                  startRight.splice(0, 1);
-                } else {
-                  startRight.splice(1, 1);
-                }
+                let swapIndex = startRight.indexOf(neededShapes[i]);
+                startRight.splice(swapIndex, 1);
                 startRight.push(dissectShapes[i]);
-                dissectShapes.splice(i, 1);
                 this.solvedLeft.push(neededShapes[i]);
               }
             }
@@ -239,13 +231,9 @@ export class AppComponent {
                 this.stepByStepSolution.push(
                   `Dissect ${neededShapes[i]} from Right`
                 );
-                if (startRight[0] === neededShapes[i]) {
-                  startRight.splice(0, 1);
-                } else {
-                  startRight.splice(1, 1);
-                }
+                let swapIndex = startRight.indexOf(neededShapes[i]);
+                startRight.splice(swapIndex, 1);
                 startRight.push(dissectShapes[i]);
-                dissectShapes.splice(i, 1);
                 this.solvedMiddle.push(neededShapes[i]);
               }
             }
