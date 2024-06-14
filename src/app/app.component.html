@@ -1,15 +1,26 @@
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+  <div class="container-fluid justify-content-start">
+    <a class="navbar-brand">Verity Solver</a>
+    <div class="navbar-nav">
+      <!-- TODO: add help modal -->
+      <!-- <button class="nav-link">Need Help?</button> -->
+      <a class="nav-link" target="_blank" href="https://x.com/StevieRaygg"
+        >&#64;StevieRayGG</a
+      >
+    </div>
+  </div>
+</nav>
 <div class="container">
-  <h2 class="text-center">Verity Solver</h2>
   <h3>What's on the inside?</h3>
   <div class="row">
     <div class="col-4">
       <div class="col">
         <h4>Left</h4>
       </div>
-      <div class="col d-flex">
+      <div class="col d-flex flex-wrap">
         <ng-container *ngIf="!insideLeft">
           <div
-            class="col border text-center d-flex justify-content-center align-items-center selectable"
+            class="col-12 col-md-4 border text-center d-flex justify-content-center align-items-center selectable"
             *ngFor="let shape of availableSelections"
             (click)="makeSelection(shape, Location.Left)"
           >
@@ -40,10 +51,10 @@
       <div class="col">
         <h4>Middle</h4>
       </div>
-      <div class="col d-flex">
+      <div class="col d-flex flex-wrap">
         <ng-container *ngIf="!insideMiddle">
           <div
-            class="col border text-center d-flex justify-content-center align-items-center selectable"
+            class="col-12 col-md-4 border text-center d-flex justify-content-center align-items-center selectable"
             *ngFor="let shape of availableSelections"
             (click)="makeSelection(shape, Location.Middle)"
           >
@@ -74,10 +85,10 @@
       <div class="col">
         <h4>Right</h4>
       </div>
-      <div class="col d-flex">
+      <div class="col d-flex flex-wrap">
         <ng-container *ngIf="!insideRight">
           <div
-            class="col border text-center d-flex justify-content-center align-items-center selectable"
+            class="col-12 col-md-4 border text-center d-flex justify-content-center align-items-center selectable"
             *ngFor="let shape of availableSelections"
             (click)="makeSelection(shape, Location.Right)"
           >
@@ -113,7 +124,7 @@
       <div class="col d-flex flex-wrap">
         <ng-container *ngIf="!outsideLeft && stepByStepSolution.length === 0">
           <div
-            class="col-4 border text-center d-flex justify-content-center align-items-center selectable"
+            class="col-6 col-md-4 border text-center d-flex justify-content-center align-items-center selectable"
             *ngFor="let shape of outsideShapes"
             (click)="selectOutside(shape, Location.Left)"
           >
@@ -179,7 +190,7 @@
       <div class="col d-flex flex-wrap">
         <ng-container *ngIf="!outsideMiddle && stepByStepSolution.length === 0">
           <div
-            class="col-4 border text-center d-flex justify-content-center align-items-center selectable"
+            class="col-6 col-md-4 border text-center d-flex justify-content-center align-items-center selectable"
             *ngFor="let shape of outsideShapes"
             (click)="selectOutside(shape, Location.Middle)"
           >
@@ -245,7 +256,7 @@
       <div class="col d-flex flex-wrap">
         <ng-container *ngIf="!outsideRight && stepByStepSolution.length === 0">
           <div
-            class="col-4 border text-center d-flex justify-content-center align-items-center selectable"
+            class="col-6 col-md-4 border text-center d-flex justify-content-center align-items-center selectable"
             *ngFor="let shape of outsideShapes"
             (click)="selectOutside(shape, Location.Right)"
           >
@@ -305,7 +316,7 @@
     </div>
   </div>
   <ng-container *ngIf="stepByStepSolution && stepByStepSolution.length > 0">
-    <h3 class="text-center">Step by Step Instructions</h3>
+    <h3>Step by Step Instructions</h3>
     <ol>
       <li *ngFor="let step of stepByStepSolution">{{ step }}</li>
     </ol>
@@ -314,11 +325,17 @@
   <div class="alert alert-danger" role="alert" *ngIf="!isSolvable">
     This selection is not solvable. Please check your inputs and try again
   </div>
-  <button (click)="reset()">Reset</button>
-  <button
-    (click)="doTheThing()"
-    *ngIf="isSolvable && stepByStepSolution.length === 0"
-  >
-    Solve
-  </button>
+  <div class="mt-3">
+    <button class="btn btn-secondary me-3" type="button" (click)="reset()">
+      Reset
+    </button>
+    <button
+      class="btn btn-success"
+      type="button"
+      (click)="doTheThing()"
+      *ngIf="isSolvable && stepByStepSolution.length === 0"
+    >
+      Solve
+    </button>
+  </div>
 </div>
