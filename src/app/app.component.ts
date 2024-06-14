@@ -58,8 +58,7 @@ export class AppComponent {
   solvedMiddle: Shape[] = [];
   solvedRight: Shape[] = [];
 
-  // TODO: watch for when two selections have been made
-  makeSelection(selection: Shape, location: Location) {
+  makeSelection(selection: Shape, location: Location): void {
     this.availableSelections = this.availableSelections.filter(
       (shape) => shape !== selection
     );
@@ -82,7 +81,7 @@ export class AppComponent {
     }
   }
 
-  selectOutside(selection: OutsideShape, location: Location) {
+  selectOutside(selection: OutsideShape, location: Location): void {
     if (location === Location.Left) {
       this.outsideLeft = JSON.parse(JSON.stringify(selection));
     } else if (location === Location.Middle) {
@@ -92,7 +91,7 @@ export class AppComponent {
     }
   }
 
-  reset() {
+  reset(): void {
     this.isSolvable = true;
     this.insideLeft = null;
     this.insideMiddle = null;
@@ -108,141 +107,176 @@ export class AppComponent {
     this.solvedRight = [];
   }
 
-  doTheThing() {
+  doTheThing(): void {
     this.isSolvable = this.checkSolvable();
     if (this.isSolvable) {
-      let startLeft = this.outsideLeft?.composition;
-      let startMiddle = this.outsideMiddle?.composition;
-      let startRight = this.outsideRight?.composition;
-      const endLeft = this.findEndShape(this.insideLeft)?.composition;
-      const endMiddle = this.findEndShape(this.insideMiddle)?.composition;
-      const endRight = this.findEndShape(this.insideRight)?.composition;
+      let startLeft = this.outsideLeft?.composition || [];
+      let startMiddle = this.outsideMiddle?.composition || [];
+      let startRight = this.outsideRight?.composition || [];
+      const endLeft = this.findEndShape(this.insideLeft)?.composition || [];
+      const endMiddle = this.findEndShape(this.insideMiddle)?.composition || [];
+      const endRight = this.findEndShape(this.insideRight)?.composition || [];
 
-      // Left
-      if (startLeft && endLeft) {
-        if (JSON.stringify(startLeft) === JSON.stringify(endLeft)) {
-          // left solved
-          this.stepByStepSolution.push('Left Complete!');
-          this.solvedLeft = startLeft || [];
-        } else {
-          let dissectShapes: Shape[] = [];
-          if (startLeft) {
-            // Check for dissections
-            if (startLeft[0] !== endLeft[0] && startLeft[0] !== endLeft[1]) {
-              dissectShapes.push(startLeft[0]);
-            } else {
-              this.solvedLeft.push(startLeft[0]);
-            }
-            if (
-              startLeft[0] === startLeft[1] ||
-              (startLeft[1] !== endLeft[0] && startLeft[1] !== endLeft[1])
-            ) {
-              dissectShapes.push(startLeft[1]);
-            } else {
-              this.solvedLeft.push(startLeft[1]);
-            }
+      // Check if any are solved already
+      this.solvedLeft = this.checkSolved(startLeft, endLeft, Location.Left);
+      this.solvedMiddle = this.checkSolved(
+        startMiddle,
+        endMiddle,
+        Location.Middle
+      );
+      this.solvedRight = this.checkSolved(startRight, endRight, Location.Right);
 
-            // Find what's needed
-            let neededShapes = endLeft.filter(
-              (shape: Shape) =>
-                !dissectShapes.includes(shape) &&
-                !this.solvedLeft.includes(shape)
+      // Solve Left
+      if (this.solvedLeft.length !== 2 && startLeft && endLeft) {
+        let dissectShapes: Shape[] = [];
+        // Check for dissections
+        if (startLeft[0] !== endLeft[0] && startLeft[0] !== endLeft[1]) {
+          dissectShapes.push(startLeft[0]);
+        }
+        if (
+          startLeft[0] === startLeft[1] ||
+          (startLeft[1] !== endLeft[0] && startLeft[1] !== endLeft[1])
+        ) {
+          dissectShapes.push(startLeft[1]);
+        }
+
+        // Find what's needed
+        let neededShapes = endLeft.filter(
+          (shape: Shape) =>
+            !dissectShapes.includes(shape) && !startLeft.includes(shape)
+        );
+
+        // Perform swaps
+        for (let i = 0; i < neededShapes.length; i++) {
+          // Look for shape in middle
+          if (
+            this.solvedMiddle.length !== 2 &&
+            startMiddle?.includes(neededShapes[i])
+          ) {
+            this.stepByStepSolution.push(
+              `Dissect ${this.toTitleCase(dissectShapes[i])} from Left`
             );
+            this.stepByStepSolution.push(
+              `Dissect ${this.toTitleCase(neededShapes[i])} from Middle`
+            );
+            let dissectIndex = startLeft.indexOf(dissectShapes[i]);
+            let swapIndex = startMiddle.indexOf(neededShapes[i]);
+            startLeft.splice(dissectIndex, 1);
+            startMiddle.splice(swapIndex, 1);
+            startLeft.push(neededShapes[i]);
+            startMiddle.push(dissectShapes[i]);
 
-            for (let i = 0; i < neededShapes.length; i++) {
-              // Look for shape in middle
-              if (startMiddle?.includes(neededShapes[i])) {
-                this.stepByStepSolution.push(
-                  `Dissect ${dissectShapes[i]} from Left`
-                );
-                this.stepByStepSolution.push(
-                  `Dissect ${neededShapes[i]} from Middle`
-                );
-                let swapIndex = startMiddle.indexOf(neededShapes[i]);
-                startMiddle.splice(swapIndex, 1);
-                startMiddle.push(dissectShapes[i]);
-                this.solvedLeft.push(neededShapes[i]);
-              } else if (startRight?.includes(neededShapes[i])) {
-                // Look for shape on right
-                this.stepByStepSolution.push(
-                  `Dissect ${dissectShapes[i]} from Left`
-                );
-                this.stepByStepSolution.push(
-                  `Dissect ${neededShapes[i]} from Right`
-                );
-                let swapIndex = startRight.indexOf(neededShapes[i]);
-                startRight.splice(swapIndex, 1);
-                startRight.push(dissectShapes[i]);
-                this.solvedLeft.push(neededShapes[i]);
-              }
-            }
+            // Check solved
+            this.solvedLeft = this.checkSolved(
+              startLeft,
+              endLeft,
+              Location.Left
+            );
+            this.solvedMiddle = this.checkSolved(
+              startMiddle,
+              endMiddle,
+              Location.Middle
+            );
+          } else if (
+            this.solvedRight.length !== 2 &&
+            startRight?.includes(neededShapes[i])
+          ) {
+            // Look for shape on right
+            this.stepByStepSolution.push(
+              `Dissect ${this.toTitleCase(dissectShapes[i])} from Left`
+            );
+            this.stepByStepSolution.push(
+              `Dissect ${this.toTitleCase(neededShapes[i])} from Right`
+            );
+            let dissectIndex = startLeft.indexOf(dissectShapes[i]);
+            let swapIndex = startRight.indexOf(neededShapes[i]);
+            startLeft.splice(dissectIndex, 1);
+            startRight.splice(swapIndex, 1);
+            startLeft.push(neededShapes[i]);
+            startRight.push(dissectShapes[i]);
+
+            this.solvedLeft = this.checkSolved(
+              startLeft,
+              endLeft,
+              Location.Left
+            );
+            this.solvedRight = this.checkSolved(
+              startRight,
+              endRight,
+              Location.Right
+            );
           }
-          this.stepByStepSolution.push('Left Complete!');
         }
       }
 
       // Middle
-      if (startMiddle && endMiddle) {
-        if (JSON.stringify(startMiddle) === JSON.stringify(endMiddle)) {
-          // left solved
-          this.stepByStepSolution.push('Middle Complete!');
-          this.solvedMiddle = startMiddle || [];
-        } else {
-          let dissectShapes: Shape[] = [];
-          if (startMiddle) {
-            // Check for dissections
-            if (
-              startMiddle[0] !== endMiddle[0] &&
-              startMiddle[0] !== endMiddle[1]
-            ) {
-              dissectShapes.push(startMiddle[0]);
-            } else {
-              this.solvedMiddle.push(startMiddle[0]);
-            }
-            if (
-              startMiddle[0] === startMiddle[1] ||
-              (startMiddle[1] !== endMiddle[0] &&
-                startMiddle[1] !== endMiddle[1])
-            ) {
-              dissectShapes.push(startMiddle[1]);
-            } else {
-              this.solvedMiddle.push(startMiddle[1]);
-            }
+      if (this.solvedMiddle.length !== 2 && startMiddle && endMiddle) {
+        let dissectShapes: Shape[] = [];
+        // Check for dissections
+        if (
+          startMiddle[0] !== endMiddle[0] &&
+          startMiddle[0] !== endMiddle[1]
+        ) {
+          dissectShapes.push(startMiddle[0]);
+        }
+        if (
+          startMiddle[0] === startMiddle[1] ||
+          (startMiddle[1] !== endMiddle[0] && startMiddle[1] !== endMiddle[1])
+        ) {
+          dissectShapes.push(startMiddle[1]);
+        }
 
-            // Find what's needed
-            let neededShapes = endMiddle.filter(
-              (shape) =>
-                !dissectShapes.includes(shape) &&
-                !this.solvedMiddle.includes(shape)
+        // Find what's needed
+        let neededShapes = endMiddle.filter(
+          (shape) =>
+            !dissectShapes.includes(shape) && !startMiddle.includes(shape)
+        );
+
+        for (let i = 0; i < neededShapes.length; i++) {
+          if (
+            this.solvedRight.length !== 2 &&
+            startRight?.includes(neededShapes[i])
+          ) {
+            // Look for shape on right
+            this.stepByStepSolution.push(
+              `Dissect ${this.toTitleCase(dissectShapes[i])} from Middle`
             );
+            this.stepByStepSolution.push(
+              `Dissect ${this.toTitleCase(neededShapes[i])} from Right`
+            );
+            let dissectIndex = startMiddle.indexOf(dissectShapes[i]);
+            let swapIndex = startRight.indexOf(neededShapes[i]);
+            startMiddle.splice(dissectIndex, 1);
+            startRight.splice(swapIndex, 1);
+            startMiddle.push(neededShapes[i]);
+            startRight.push(dissectShapes[i]);
 
-            for (let i = 0; i < neededShapes.length; i++) {
-              if (startRight?.includes(neededShapes[i])) {
-                // Look for shape on right
-                this.stepByStepSolution.push(
-                  `Dissect ${dissectShapes[i]} from Middle`
-                );
-                this.stepByStepSolution.push(
-                  `Dissect ${neededShapes[i]} from Right`
-                );
-                let swapIndex = startRight.indexOf(neededShapes[i]);
-                startRight.splice(swapIndex, 1);
-                startRight.push(dissectShapes[i]);
-                this.solvedMiddle.push(neededShapes[i]);
-              }
-            }
+            // Check solved after each swap
+            this.solvedMiddle = this.checkSolved(
+              startMiddle,
+              endMiddle,
+              Location.Middle
+            );
+            this.solvedRight = this.checkSolved(
+              startRight,
+              endRight,
+              Location.Right
+            );
           }
-          this.stepByStepSolution.push('Middle Complete!');
         }
       }
-
-      // Right
-      this.solvedRight = startRight || [];
-      this.stepByStepSolution.push('Right Complete!');
     }
   }
 
-  checkSolvable() {
+  checkSolved(start: Shape[], end: Shape[], location: Location): Shape[] {
+    if (JSON.stringify(start?.sort()) === JSON.stringify(end?.sort())) {
+      this.stepByStepSolution.push(`${this.toTitleCase(location)} Complete!`);
+      return start.sort();
+    }
+    return [];
+  }
+
+  checkSolvable(): boolean {
     let circleCount = 0;
     let squareCount = 0;
     let triangleCount = 0;
@@ -309,5 +343,9 @@ export class AppComponent {
       default:
         return null;
     }
+  }
+
+  toTitleCase(val: string): string {
+    return val.charAt(0).toUpperCase() + val.substring(1);
   }
 }
