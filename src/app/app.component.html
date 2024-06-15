@@ -3,7 +3,20 @@
     <a class="navbar-brand">Verity Solver</a>
     <div class="navbar-nav">
       <!-- TODO: add help modal -->
-      <!-- <button class="nav-link">Need Help?</button> -->
+      <button
+        class="nav-link"
+        data-bs-toggle="modal"
+        data-bs-target="#symbolModal"
+      >
+        Symbols
+      </button>
+      <button
+        class="nav-link"
+        data-bs-toggle="modal"
+        data-bs-target="#helpModal"
+      >
+        Need Help?
+      </button>
       <a class="nav-link" target="_blank" href="https://x.com/StevieRaygg"
         >&#64;StevieRayGG</a
       >
@@ -122,7 +135,7 @@
         <h4>Left</h4>
       </div>
       <div class="col d-flex flex-wrap">
-        <ng-container *ngIf="!outsideLeft && stepByStepSolution.length === 0">
+        <ng-container *ngIf="!outsideLeft">
           <div
             class="col-6 col-md-4 border text-center d-flex justify-content-center align-items-center selectable"
             *ngFor="let shape of outsideShapes"
@@ -131,37 +144,11 @@
             {{ shape.name | titlecase }}
           </div>
         </ng-container>
-        <div
-          *ngIf="outsideLeft && stepByStepSolution.length === 0"
-          class="col text-center"
-        >
+        <div *ngIf="outsideLeft" class="col text-center">
           <div
             class="col"
             [ngClass]="first ? 'mb-3' : ''"
             *ngFor="let shape of outsideLeft.composition; let first = first"
-          >
-            <img
-              *ngIf="shape === Shape.Circle"
-              class="image-selection"
-              src="assets/circle.png"
-            />
-            <img
-              *ngIf="shape === Shape.Square"
-              class="image-selection"
-              src="assets/square.png"
-            />
-            <img
-              *ngIf="shape === Shape.Triangle"
-              class="image-selection"
-              src="assets/triangle.png"
-            />
-          </div>
-        </div>
-        <div *ngIf="stepByStepSolution.length > 0" class="col text-center">
-          <div
-            class="col"
-            [ngClass]="first ? 'mb-3' : ''"
-            *ngFor="let shape of solvedLeft; let first = first"
           >
             <img
               *ngIf="shape === Shape.Circle"
@@ -188,7 +175,7 @@
         <h4>Middle</h4>
       </div>
       <div class="col d-flex flex-wrap">
-        <ng-container *ngIf="!outsideMiddle && stepByStepSolution.length === 0">
+        <ng-container *ngIf="!outsideMiddle">
           <div
             class="col-6 col-md-4 border text-center d-flex justify-content-center align-items-center selectable"
             *ngFor="let shape of outsideShapes"
@@ -197,37 +184,11 @@
             {{ shape.name | titlecase }}
           </div>
         </ng-container>
-        <div
-          *ngIf="outsideMiddle && stepByStepSolution.length === 0"
-          class="col text-center"
-        >
+        <div *ngIf="outsideMiddle" class="col text-center">
           <div
             class="col"
             [ngClass]="first ? 'mb-3' : ''"
             *ngFor="let shape of outsideMiddle.composition; let first = first"
-          >
-            <img
-              *ngIf="shape === Shape.Circle"
-              class="image-selection"
-              src="assets/circle.png"
-            />
-            <img
-              *ngIf="shape === Shape.Square"
-              class="image-selection"
-              src="assets/square.png"
-            />
-            <img
-              *ngIf="shape === Shape.Triangle"
-              class="image-selection"
-              src="assets/triangle.png"
-            />
-          </div>
-        </div>
-        <div *ngIf="stepByStepSolution.length > 0" class="col text-center">
-          <div
-            class="col"
-            [ngClass]="first ? 'mb-3' : ''"
-            *ngFor="let shape of solvedMiddle; let first = first"
           >
             <img
               *ngIf="shape === Shape.Circle"
@@ -254,7 +215,7 @@
         <h4>Right</h4>
       </div>
       <div class="col d-flex flex-wrap">
-        <ng-container *ngIf="!outsideRight && stepByStepSolution.length === 0">
+        <ng-container *ngIf="!outsideRight">
           <div
             class="col-6 col-md-4 border text-center d-flex justify-content-center align-items-center selectable"
             *ngFor="let shape of outsideShapes"
@@ -263,10 +224,7 @@
             {{ shape.name | titlecase }}
           </div>
         </ng-container>
-        <div
-          *ngIf="outsideRight && stepByStepSolution.length === 0"
-          class="col text-center"
-        >
+        <div *ngIf="outsideRight" class="col text-center">
           <div
             class="col"
             [ngClass]="first ? 'mb-3' : ''"
@@ -289,37 +247,98 @@
             />
           </div>
         </div>
-        <div *ngIf="stepByStepSolution.length > 0" class="col text-center">
-          <div
-            class="col"
-            [ngClass]="first ? 'mb-3' : ''"
-            *ngFor="let shape of solvedRight; let first = first"
-          >
-            <img
-              *ngIf="shape === Shape.Circle"
-              class="image-selection"
-              src="assets/circle.png"
-            />
-            <img
-              *ngIf="shape === Shape.Square"
-              class="image-selection"
-              src="assets/square.png"
-            />
-            <img
-              *ngIf="shape === Shape.Triangle"
-              class="image-selection"
-              src="assets/triangle.png"
-            />
-          </div>
-        </div>
       </div>
     </div>
   </div>
   <ng-container *ngIf="stepByStepSolution && stepByStepSolution.length > 0">
-    <h3>Step by Step Instructions</h3>
-    <ol>
-      <li *ngFor="let step of stepByStepSolution">{{ step }}</li>
-    </ol>
+    <hr />
+    <h3>Solution</h3>
+    <div class="row">
+      <div class="col">
+        <h4>Step by Step Instructions</h4>
+        <ol>
+          <li *ngFor="let step of stepByStepSolution">{{ step }}</li>
+        </ol>
+      </div>
+      <div class="col text-center">
+        <div class="col">
+          <h4>Left</h4>
+        </div>
+        <div
+          class="col"
+          [ngClass]="first ? 'mb-3' : ''"
+          *ngFor="let shape of solvedLeft; let first = first"
+        >
+          <img
+            *ngIf="shape === Shape.Circle"
+            class="image-selection"
+            src="assets/circle.png"
+          />
+          <img
+            *ngIf="shape === Shape.Square"
+            class="image-selection"
+            src="assets/square.png"
+          />
+          <img
+            *ngIf="shape === Shape.Triangle"
+            class="image-selection"
+            src="assets/triangle.png"
+          />
+        </div>
+      </div>
+      <div class="col text-center">
+        <div class="col">
+          <h4>Middle</h4>
+        </div>
+        <div
+          class="col"
+          [ngClass]="first ? 'mb-3' : ''"
+          *ngFor="let shape of solvedMiddle; let first = first"
+        >
+          <img
+            *ngIf="shape === Shape.Circle"
+            class="image-selection"
+            src="assets/circle.png"
+          />
+          <img
+            *ngIf="shape === Shape.Square"
+            class="image-selection"
+            src="assets/square.png"
+          />
+          <img
+            *ngIf="shape === Shape.Triangle"
+            class="image-selection"
+            src="assets/triangle.png"
+          />
+        </div>
+      </div>
+      <div class="col text-center">
+        <div class="col">
+          <h4>Right</h4>
+        </div>
+        <div
+          class="col"
+          [ngClass]="first ? 'mb-3' : ''"
+          *ngFor="let shape of solvedRight; let first = first"
+        >
+          <img
+            *ngIf="shape === Shape.Circle"
+            class="image-selection"
+            src="assets/circle.png"
+          />
+          <img
+            *ngIf="shape === Shape.Square"
+            class="image-selection"
+            src="assets/square.png"
+          />
+          <img
+            *ngIf="shape === Shape.Triangle"
+            class="image-selection"
+            src="assets/triangle.png"
+          />
+        </div>
+      </div>
+    </div>
   </ng-container>
 
   <div class="alert alert-danger" role="alert" *ngIf="!isSolvable">
@@ -337,5 +356,133 @@
     >
       Solve
     </button>
+  </div>
+</div>
+
+<!-- Symbol Modal -->
+<div
+  class="modal fade"
+  id="symbolModal"
+  tabindex="-1"
+  aria-labelledby="symbolModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="symbolModalLabel">Symbols</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row row-cols-1">
+          <div class="col mb-3">
+            <img class="image-modal" src="assets/circle.png" /> +
+            <img class="image-modal" src="assets/circle.png" /> = Sphere
+          </div>
+          <div class="col mb-3">
+            <img class="image-modal" src="assets/triangle.png" /> +
+            <img class="image-modal" src="assets/triangle.png" /> = Pyramid
+          </div>
+          <div class="col mb-3">
+            <img class="image-modal" src="assets/square.png" /> +
+            <img class="image-modal" src="assets/square.png" /> = Cube
+          </div>
+          <div class="col mb-3">
+            <img class="image-modal" src="assets/circle.png" /> +
+            <img class="image-modal" src="assets/triangle.png" /> = Cone
+          </div>
+          <div class="col mb-3">
+            <img class="image-modal" src="assets/square.png" /> +
+            <img class="image-modal" src="assets/triangle.png" /> = Prism
+          </div>
+          <div class="col mb-3">
+            <img class="image-modal" src="assets/circle.png" /> +
+            <img class="image-modal" src="assets/square.png" /> = Cylinder
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Help Modal -->
+<div
+  class="modal fade"
+  id="helpModal"
+  tabindex="-1"
+  aria-labelledby="helpModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="helpModalLabel">Need Help?</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Check out this video explanation by
+          <a href="https://x.com/thetiddlywinks">&#64;thetiddlywinks</a>:
+        </p>
+        <blockquote
+          class="tiktok-embed"
+          cite="https://www.tiktok.com/@tiddlytok/video/7379613078150860062"
+          data-video-id="7379613078150860062"
+          style="max-width: 605px; min-width: 325px"
+          muted="true"
+        >
+          <section>
+            <a
+              target="_blank"
+              title="@tiddlytok"
+              href="https://www.tiktok.com/@tiddlytok?refer=embed"
+              >&#64;tiddlytok</a
+            >
+            Dissection shape abacus for Verity encounter in Salvation’s Edge
+            Raid
+            <a
+              title="destiny2"
+              target="_blank"
+              href="https://www.tiktok.com/tag/destiny2?refer=embed"
+              >#destiny2</a
+            >
+            <a
+              title="salvationsedge"
+              target="_blank"
+              href="https://www.tiktok.com/tag/salvationsedge?refer=embed"
+              >#salvationsedge</a
+            >
+            <a
+              title="raid"
+              target="_blank"
+              href="https://www.tiktok.com/tag/raid?refer=embed"
+              >#raid</a
+            >
+            <a
+              title="puzzle"
+              target="_blank"
+              href="https://www.tiktok.com/tag/puzzle?refer=embed"
+              >#puzzle</a
+            >
+            <a
+              target="_blank"
+              title="♬ original sound - Tiddly"
+              href="https://www.tiktok.com/music/original-sound-7379613394041309982?refer=embed"
+              >♬ original sound - Tiddly</a
+            >
+          </section>
+        </blockquote>
+      </div>
+    </div>
   </div>
 </div>

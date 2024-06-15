@@ -110,9 +110,15 @@ export class AppComponent {
   doTheThing(): void {
     this.isSolvable = this.checkSolvable();
     if (this.isSolvable) {
-      let startLeft = this.outsideLeft?.composition || [];
-      let startMiddle = this.outsideMiddle?.composition || [];
-      let startRight = this.outsideRight?.composition || [];
+      let startLeft = JSON.parse(
+        JSON.stringify(this.outsideLeft?.composition || [])
+      );
+      let startMiddle = JSON.parse(
+        JSON.stringify(this.outsideMiddle?.composition || [])
+      );
+      let startRight = JSON.parse(
+        JSON.stringify(this.outsideRight?.composition || [])
+      );
       const endLeft = this.findEndShape(this.insideLeft)?.composition || [];
       const endMiddle = this.findEndShape(this.insideMiddle)?.composition || [];
       const endRight = this.findEndShape(this.insideRight)?.composition || [];
