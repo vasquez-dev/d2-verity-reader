@@ -138,7 +138,7 @@
         <ng-container *ngIf="!outsideLeft">
           <div
             class="col-6 col-md-4 border text-center d-flex justify-content-center align-items-center selectable"
-            *ngFor="let shape of outsideShapes"
+            *ngFor="let shape of availableOutsideShapes"
             (click)="selectOutside(shape, Location.Left)"
           >
             {{ shape.name | titlecase }}
@@ -178,7 +178,7 @@
         <ng-container *ngIf="!outsideMiddle">
           <div
             class="col-6 col-md-4 border text-center d-flex justify-content-center align-items-center selectable"
-            *ngFor="let shape of outsideShapes"
+            *ngFor="let shape of availableOutsideShapes"
             (click)="selectOutside(shape, Location.Middle)"
           >
             {{ shape.name | titlecase }}
@@ -218,7 +218,7 @@
         <ng-container *ngIf="!outsideRight">
           <div
             class="col-6 col-md-4 border text-center d-flex justify-content-center align-items-center selectable"
-            *ngFor="let shape of outsideShapes"
+            *ngFor="let shape of availableOutsideShapes"
             (click)="selectOutside(shape, Location.Right)"
           >
             {{ shape.name | titlecase }}

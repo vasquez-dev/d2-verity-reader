@@ -39,15 +39,16 @@ export class AppComponent {
     { name: Shape.Prism, composition: [Shape.Square, Shape.Triangle] },
     { name: Shape.Cylinder, composition: [Shape.Circle, Shape.Square] },
   ];
-
+  startingSelections = [Shape.Circle, Shape.Square, Shape.Triangle];
+  startingLocations = [Location.Left, Location.Middle, Location.Right];
+  availableOutsideShapes = this.outsideShapes;
+  availableOutsideLocations = this.startingLocations;
   insideLeft: Shape | null = null;
   insideMiddle: Shape | null = null;
   insideRight: Shape | null = null;
   outsideLeft: OutsideShape | null = null;
   outsideMiddle: OutsideShape | null = null;
   outsideRight: OutsideShape | null = null;
-  startingSelections = [Shape.Circle, Shape.Square, Shape.Triangle];
-  startingLocations = [Location.Left, Location.Middle, Location.Right];
   availableSelections = this.startingSelections;
   availableLocations = this.startingLocations;
   Location = Location;
@@ -82,6 +83,10 @@ export class AppComponent {
   }
 
   selectOutside(selection: OutsideShape, location: Location): void {
+    this.availableOutsideLocations = this.availableOutsideLocations.filter(
+      (availableOutsideLocation) => availableOutsideLocation !== location
+    );
+
     if (location === Location.Left) {
       this.outsideLeft = JSON.parse(JSON.stringify(selection));
     } else if (location === Location.Middle) {
@@ -89,6 +94,44 @@ export class AppComponent {
     } else if (location === Location.Right) {
       this.outsideRight = JSON.parse(JSON.stringify(selection));
     }
+    if (!this.outsideLeft || !this.outsideMiddle || !this.outsideRight) {
+      this.updateAvailableSelections();
+    }
+    if (
+      this.availableOutsideLocations.length === 1 &&
+      this.availableOutsideShapes.length === 1
+    ) {
+      this.selectOutside(
+        this.availableOutsideShapes[0],
+        this.availableOutsideLocations[0]
+      );
+    }
+  }
+
+  updateAvailableSelections() {
+    const counts = this.getCounts();
+
+    this.availableOutsideShapes = this.outsideShapes.filter((shape) => {
+      let circleCount = 0;
+      let squareCount = 0;
+      let triangleCount = 0;
+      const composition = shape.composition;
+
+      for (let i = 0; i < composition.length; i++) {
+        if (composition[i] === Shape.Circle) {
+          circleCount++;
+        } else if (composition[i] === Shape.Square) {
+          squareCount++;
+        } else if (composition[i] === Shape.Triangle) {
+          triangleCount++;
+        }
+      }
+      circleCount = circleCount + counts.circleCount;
+      squareCount = squareCount + counts.squareCount;
+      triangleCount = triangleCount + counts.triangleCount;
+
+      return circleCount <= 2 && squareCount <= 2 && triangleCount <= 2;
+    });
   }
 
   reset(): void {
@@ -105,6 +148,8 @@ export class AppComponent {
     this.solvedLeft = [];
     this.solvedMiddle = [];
     this.solvedRight = [];
+    this.availableOutsideShapes = this.outsideShapes;
+    this.availableOutsideLocations = this.startingLocations;
   }
 
   doTheThing(): void {
@@ -282,7 +327,7 @@ export class AppComponent {
     return [];
   }
 
-  checkSolvable(): boolean {
+  getCounts() {
     let circleCount = 0;
     let squareCount = 0;
     let triangleCount = 0;
@@ -325,8 +370,17 @@ export class AppComponent {
         }
       }
     }
+    return { circleCount, squareCount, triangleCount };
+  }
 
-    return circleCount === 2 && squareCount === 2 && triangleCount === 2;
+  checkSolvable(): boolean {
+    const counts = this.getCounts();
+
+    return (
+      counts.circleCount === 2 &&
+      counts.squareCount === 2 &&
+      counts.triangleCount === 2
+    );
   }
 
   findEndShape(shape: Shape | null): OutsideShape | null {
