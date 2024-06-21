@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 
 export enum Shape {
@@ -26,7 +27,7 @@ export interface OutsideShape {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet, CommonModule, FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
@@ -58,6 +59,16 @@ export class AppComponent {
   solvedLeft: Shape[] = [];
   solvedMiddle: Shape[] = [];
   solvedRight: Shape[] = [];
+  selected: boolean = true;
+
+  toggleTheme(val: boolean) {
+    this.selected = val;
+    if (val) {
+      document.body.setAttribute('data-bs-theme', 'dark');
+    } else {
+      document.body.setAttribute('data-bs-theme', 'light');
+    }
+  }
 
   makeSelection(selection: Shape, location: Location): void {
     this.availableSelections = this.availableSelections.filter(

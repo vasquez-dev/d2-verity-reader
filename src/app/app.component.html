@@ -1,25 +1,46 @@
 <nav class="navbar navbar-expand navbar-dark border-bottom bg-dark">
   <div class="container-fluid justify-content-start">
     <a class="navbar-brand">Verity Solver</a>
-    <div class="navbar-nav">
-      <!-- TODO: add help modal -->
-      <button
-        class="nav-link"
-        data-bs-toggle="modal"
-        data-bs-target="#symbolModal"
-      >
-        Symbols
-      </button>
-      <button
-        class="nav-link"
-        data-bs-toggle="modal"
-        data-bs-target="#helpModal"
-      >
-        Need Help?
-      </button>
-      <a class="nav-link" target="_blank" href="https://x.com/StevieRaygg"
-        >&#64;StevieRayGG</a
-      >
+    <div
+      class="navbar-nav w-100 d-flex justify-content-between align-items-end"
+    >
+      <div class="d-flex">
+        <button
+          class="nav-link"
+          data-bs-toggle="modal"
+          data-bs-target="#symbolModal"
+        >
+          Symbols
+        </button>
+        <button
+          class="nav-link"
+          data-bs-toggle="modal"
+          data-bs-target="#helpModal"
+        >
+          Need Help?
+        </button>
+        <a class="nav-link" target="_blank" href="https://x.com/StevieRaygg"
+          >&#64;StevieRayGG</a
+        >
+      </div>
+      <div class="nav-item dropdown">
+        <button
+          class="nav-link dropdown-toggle"
+          href="#"
+          role="button"
+          data-bs-toggle="dropdown"
+        >
+          {{ selected ? "Dark Mode" : "Light Mode" }}
+        </button>
+        <div class="dropdown-menu">
+          <button class="dropdown-item" (click)="toggleTheme(false)">
+            Light Mode
+          </button>
+          <button class="dropdown-item" (click)="toggleTheme(true)">
+            Dark Mode
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </nav>
