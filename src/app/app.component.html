@@ -1,28 +1,44 @@
-<nav class="navbar navbar-expand navbar-dark border-bottom bg-dark">
-  <div class="container-fluid justify-content-start">
+<nav class="navbar navbar-expand-sm navbar-dark border-bottom bg-dark">
+  <div class="container-fluid">
     <a class="navbar-brand">Verity Solver</a>
-    <div
-      class="navbar-nav w-100 d-flex justify-content-between align-items-end"
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarToggler"
+      aria-controls="navbarToggler"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
     >
-      <div class="d-flex">
-        <button
-          class="nav-link"
-          data-bs-toggle="modal"
-          data-bs-target="#symbolModal"
-        >
-          Symbols
-        </button>
-        <button
-          class="nav-link"
-          data-bs-toggle="modal"
-          data-bs-target="#helpModal"
-        >
-          Need Help?
-        </button>
-        <a class="nav-link" target="_blank" href="https://x.com/StevieRaygg"
-          >&#64;StevieRayGG</a
-        >
-      </div>
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarToggler">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <button
+            class="nav-link"
+            data-bs-toggle="modal"
+            data-bs-target="#symbolModal"
+          >
+            Symbols
+          </button>
+        </li>
+        <li class="nav-item">
+          <button
+            class="nav-link"
+            data-bs-toggle="modal"
+            data-bs-target="#helpModal"
+          >
+            Need Help?
+          </button>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" target="_blank" href="https://x.com/StevieRaygg"
+            >&#64;StevieRayGG</a
+          >
+        </li>
+      </ul>
       <div class="nav-item dropdown">
         <button
           class="nav-link dropdown-toggle"
@@ -32,7 +48,7 @@
         >
           {{ selected ? "Dark Mode" : "Light Mode" }}
         </button>
-        <div class="dropdown-menu">
+        <div class="dropdown-menu dropdown-menu-sm-end">
           <button class="dropdown-item" (click)="toggleTheme(false)">
             Light Mode
           </button>
@@ -158,7 +174,7 @@
       <div class="col d-flex flex-wrap">
         <ng-container *ngIf="!outsideLeft">
           <div
-            class="col-6 col-md-4 border text-center d-flex justify-content-center align-items-center selectable"
+            class="col-12 col-md-4 border text-center d-flex justify-content-center align-items-center selectable"
             *ngFor="let shape of availableOutsideShapes"
             (click)="selectOutside(shape, Location.Left)"
           >
@@ -198,7 +214,7 @@
       <div class="col d-flex flex-wrap">
         <ng-container *ngIf="!outsideMiddle">
           <div
-            class="col-6 col-md-4 border text-center d-flex justify-content-center align-items-center selectable"
+            class="col-12 col-md-4 border text-center d-flex justify-content-center align-items-center selectable"
             *ngFor="let shape of availableOutsideShapes"
             (click)="selectOutside(shape, Location.Middle)"
           >
@@ -238,7 +254,7 @@
       <div class="col d-flex flex-wrap">
         <ng-container *ngIf="!outsideRight">
           <div
-            class="col-6 col-md-4 border text-center d-flex justify-content-center align-items-center selectable"
+            class="col-12 col-md-4 border text-center d-flex justify-content-center align-items-center selectable"
             *ngFor="let shape of availableOutsideShapes"
             (click)="selectOutside(shape, Location.Right)"
           >
@@ -275,7 +291,7 @@
     <hr />
     <h3>Solution</h3>
     <div class="row">
-      <div class="col">
+      <div class="col-12 col-md-auto">
         <h4>Step by Step Instructions</h4>
         <ol>
           <li *ngFor="let step of stepByStepSolution">{{ step }}</li>
